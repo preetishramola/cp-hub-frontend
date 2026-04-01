@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Dark mode (default) ── */
+:root {
+  --bg:         #0e0e0e;
+  --bg-2:       #161616;
+  --bg-3:       #1e1e1e;
+  --border:     #2a2a2a;
+  --text:       #e4e4e4;
+  --text-muted: #6b6b6b;
+  --accent:     #e8c547;
+  --accent-dim: #e8c54720;
+  --danger:     #e05c5c;
+  --success:    #5ce08a;
+}
+
+/* ── Light mode ── */
+html[data-theme="light"] {
+  --bg:         #f5f5f0;
+  --bg-2:       #ebebeb;
+  --bg-3:       #e0e0d8;
+  --border:     #d0cfc8;
+  --text:       #1a1a1a;
+  --text-muted: #888880;
+  --accent:     #b8960a;
+  --accent-dim: #b8960a20;
+  --danger:     #c0392b;
+  --success:    #27ae60;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Lora', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.2s, color 0.2s;
+}
+
+h1, h2, h3, h4, h5, h6, .mono {
+  font-family: 'DM Mono', 'Courier New', monospace;
+  letter-spacing: -0.02em;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+*:focus-visible {
+  outline: 1.5px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Blog markdown prose ── */
+.prose-blog h1, .prose-blog h2, .prose-blog h3 {
+  font-family: 'DM Mono', monospace;
+  color: var(--text);
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+.prose-blog p { margin-bottom: 1.2em; color: var(--text-muted); }
+.prose-blog code {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85em;
+  color: var(--accent);
+}
+.prose-blog pre {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  padding: 1.2em;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+.prose-blog pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text);
+}
+.prose-blog a { color: var(--accent); text-decoration: underline; }
+.prose-blog blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1em;
+  color: var(--text-muted);
+  margin: 1.5em 0;
+}
