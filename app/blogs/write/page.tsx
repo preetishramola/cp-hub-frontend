@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createBlog, updateBlog, getBlog } from "@/lib/api";
 
-export default function WriteBlogPage() {
+function WriteBlogContent() {
   const router = useRouter();
   const params = useSearchParams();
   const editId = params.get("edit");
@@ -56,7 +56,6 @@ export default function WriteBlogPage() {
         }}>{preview ? "✎ Edit" : "◉ Preview"}</button>
       </div>
 
-      {/* Title */}
       <input
         value={form.title}
         onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
@@ -72,9 +71,8 @@ export default function WriteBlogPage() {
       />
 
       {preview ? (
-        <div className="prose-blog" style={{ minHeight: 400, padding: "24px 0" }}>
+        <div style={{ minHeight: 400, padding: "24px 0" }}>
           {form.content ? (
-            // Simple markdown preview without ReactMarkdown to avoid SSR issues on write page
             <pre style={{ fontFamily: "'Lora', serif", whiteSpace: "pre-wrap", color: "var(--text)", fontSize: 15, lineHeight: 1.8 }}>
               {form.content}
             </pre>
@@ -86,7 +84,7 @@ export default function WriteBlogPage() {
         <textarea
           value={form.content}
           onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
-          placeholder={`Write your blog in markdown...\n\n# Heading\n**bold**, *italic*\n\`\`\`cpp\n// code block\n\`\`\``}
+          placeholder="Write your blog in markdown..."
           rows={22}
           style={{
             width: "100%", padding: "16px",
@@ -98,20 +96,24 @@ export default function WriteBlogPage() {
       )}
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24 }}>
-        <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "var(--text-muted)", margin: 0 }}>
-          Markdown supported
-        </p>
+        <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "var(--text-muted)", margin: 0 }}>Markdown supported</p>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           {error && <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "var(--danger)" }}>{error}</span>}
           <button onClick={submit} disabled={loading} style={{
-            padding: "10px 28px",
-            background: "var(--accent)", color: "#0e0e0e",
+            padding: "10px 28px", background: "var(--accent)", color: "#0e0e0e",
             fontFamily: "'DM Mono', monospace", fontSize: 14, fontWeight: 500,
-            border: "none", cursor: loading ? "not-allowed" : "pointer",
-            opacity: loading ? 0.7 : 1
+            border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1
           }}>{loading ? "saving..." : isEdit ? "Update" : "Publish"}</button>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function WriteBlogPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 80, textAlign: "center", fontFamily: "'DM Mono', monospace", color: "var(--text-muted)" }}>loading...</div>}>
+      <WriteBlogContent />
+    </Suspense>
   );
 }
