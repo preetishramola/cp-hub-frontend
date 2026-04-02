@@ -3,6 +3,8 @@ import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createBlog, updateBlog, getBlog } from "@/lib/api";
 
+export const dynamic = 'force-dynamic';
+
 function WriteBlogContent() {
   const router = useRouter();
   const params = useSearchParams();
